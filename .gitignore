@@ -1,0 +1,3 @@
+#on ignore les fichiers compilés
+bin
+bin/*
