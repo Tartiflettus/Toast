@@ -2,6 +2,9 @@ package gameElements;
 
 public class Board {
 	
+	public final int RED = 0;
+	public final int YELLOW = 1;
+	
 	protected int x;
 	protected int y;
 	protected int[][] board;
@@ -39,10 +42,9 @@ public class Board {
 	public int getY() {
 		return y;
 	}
-
-	public int[][] getBoard() {
-		return board;
+	
+	//accès à la case (x,y) du plateau
+	public int getCell(int x, int y){
+		return board[x][y];
 	}
-	
-	
 }
