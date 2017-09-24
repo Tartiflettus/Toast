@@ -41,6 +41,7 @@ public class GameUI extends JFrame {
 				buttons[i][j] = new JButton();
 			
 				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
+				buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
 				
 				buttons[i][j].setBackground(new Color(39, 80, 186));
 				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));

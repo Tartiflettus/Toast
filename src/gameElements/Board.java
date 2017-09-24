@@ -2,8 +2,9 @@ package gameElements;
 
 public class Board {
 	
-	public final int RED = 0;
-	public final int YELLOW = 1;
+	public final int WHITE = 0;
+	public final int RED = 1;
+	public final int YELLOW = 2;
 	
 	protected int x;
 	protected int y;
