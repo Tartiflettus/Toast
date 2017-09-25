@@ -7,7 +7,7 @@ Créer une intelligence artificielle suffisamment élaborée pour battre un joue
 
 ## Pourquoi
 
-Projet de M1 informatique, pour la matière MPRI (Méthodes d'Apprentissage, de Raisonnement, d'Intéractions)
+Projet de M1 informatique, pour la matière MPRI (Méthodes de Perception, de Raisonnement, d'Intéractions)
 
 ## Comment
 
