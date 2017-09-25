@@ -22,7 +22,7 @@ public class Board {
 		this.height = height;
 		board = new int[width][height];
 	}
-	
+		
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0 ; i < width ; i++){
@@ -36,6 +36,18 @@ public class Board {
 		return sb.toString();
 	}
 
+	public Board clone(){
+		int res[][] = new int[width][height];
+		for (int i = 0 ; i < width ; i++){
+			for (int j =0 ; j < height ; j++){
+				res[i][j] = board[i][j];
+			}
+		}
+		Board b = new Board(width, height);
+		b.setBoard(res);
+		return b;
+	}
+	
 	public int getWidth() {
 		return width;
 	}
@@ -44,6 +56,22 @@ public class Board {
 		return height;
 	}
 	
+	public int[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(int[][] board) {
+		this.board = board;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	//accès à la case (x,y) du plateau
 	public int getCell(int x, int y){
 		return board[x][y];

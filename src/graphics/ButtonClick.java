@@ -5,13 +5,13 @@ import java.awt.event.ActionListener;
 
 public class ButtonClick implements ActionListener {
 
-	private GameUI g;
-	private int i,j;
+	private GameUI gameUI;
+	private int x,y;
 
-	public ButtonClick(GameUI g, int i, int j){
-		this.g=g;
-		this.i=i;
-		this.j=j;
+	public ButtonClick(GameUI g, int x, int y){
+		this.gameUI=g;
+		this.x=x;
+		this.y=y;
 	}
 
 	
