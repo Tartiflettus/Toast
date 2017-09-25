@@ -6,28 +6,28 @@ public class Board {
 	public final int RED = 1;
 	public final int YELLOW = 2;
 	
-	protected int x;
-	protected int y;
+	protected int width;
+	protected int height;
 	protected int[][] board;
 	
 	
 	public Board(){
-		x = 7;
-		y = 7;
-		board = new int[x][y];
+		width = 7;
+		height = 7;
+		board = new int[width][height];
 	}
 	
-	public Board(int x, int y){
-		this.x = x;
-		this.y = y;
-		board = new int[x][y];
+	public Board(int width, int height){
+		this.width = width;
+		this.height = height;
+		board = new int[width][height];
 	}
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0 ; i < x ; i++){
+		for (int i = 0 ; i < width ; i++){
 			sb.append("| ");
-			for (int j = 0 ; j < y ; j++){
+			for (int j = 0 ; j < height ; j++){
 				sb.append(board[i][j]);
 			}
 			sb.append("|\n");
@@ -36,12 +36,12 @@ public class Board {
 		return sb.toString();
 	}
 
-	public int getX() {
-		return x;
+	public int getWidth() {
+		return width;
 	}
 
-	public int getY() {
-		return y;
+	public int getHeight() {
+		return height;
 	}
 	
 	//accès à la case (x,y) du plateau

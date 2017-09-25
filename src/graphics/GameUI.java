@@ -33,11 +33,11 @@ public class GameUI extends JFrame {
 		
 		panel = new JPanel();
 		
-		buttons = new JButton[b.getX()][b.getY()];
+		buttons = new JButton[b.getWidth()][b.getHeight()];
 		
-		panel.setLayout(new GridLayout(b.getX(),b.getY()));
-		for(int i=0;i<b.getX();i++){
-			for( int j=0; j<b.getY();j++){
+		panel.setLayout(new GridLayout(b.getWidth(),b.getHeight()));
+		for(int i=0;i<b.getWidth();i++){
+			for( int j=0; j<b.getHeight();j++){
 				buttons[i][j] = new JButton();
 			
 				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
