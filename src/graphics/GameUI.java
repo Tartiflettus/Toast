@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -30,9 +32,10 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import gameElements.Board;
+import gameElements.Game;
 
-public class GameUI extends JFrame {
-	protected Board board;
+public class GameUI extends JFrame implements Observer {
+	private Game game;
 	
 	protected JButton[][] buttons;
 	protected JPanel panel;
@@ -41,13 +44,13 @@ public class GameUI extends JFrame {
 	protected JMenuItem nouvellePartie;
 	
 	
-	public GameUI(Board b){
+	public GameUI(Game game){
 		super("Puissance 4");
 		setPreferredSize(new Dimension(700, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		
-		board = b;
+		this.game = game;
 		
 		// JMENUBAR
 		
@@ -111,11 +114,11 @@ public class GameUI extends JFrame {
 		
 		panel = new JPanel();
 		
-		buttons = new JButton[b.getWidth()][b.getHeight()];
+		buttons = new JButton[game.getWidth()][game.getHeight()];
 		
-		panel.setLayout(new GridLayout(b.getWidth(),b.getHeight()));
-		for(int i=0;i<b.getWidth();i++){
-			for( int j=0; j<b.getHeight();j++){
+		panel.setLayout(new GridLayout(game.getWidth(),game.getHeight()));
+		for(int i=0;i<game.getWidth();i++){
+			for( int j=0; j<game.getHeight();j++){
 				buttons[i][j] = new JButton();
 			
 				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
@@ -123,7 +126,7 @@ public class GameUI extends JFrame {
 				
 				buttons[i][j].setBackground(new Color(39, 80, 186));
 				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-				buttons[i][j].addActionListener(new ButtonClick(this, i, j));
+				buttons[i][j].addActionListener(new ButtonClick(game, i));
 				panel.add(buttons[i][j]);
 			}
 		}
@@ -136,5 +139,11 @@ public class GameUI extends JFrame {
 		pack() ;
         setVisible(true);
 
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//TODO
 	}
 }

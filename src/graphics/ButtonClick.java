@@ -3,15 +3,16 @@ package graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import gameElements.Game;
+
 public class ButtonClick implements ActionListener {
 
-	private GameUI gameUI;
-	private int x,y;
+	private Game game;
+	private int x;
 
-	public ButtonClick(GameUI g, int x, int y){
-		this.gameUI=g;
+	public ButtonClick(Game g, int x){
+		this.game=g;
 		this.x=x;
-		this.y=y;
 	}
 
 	
