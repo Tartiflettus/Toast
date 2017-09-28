@@ -35,6 +35,7 @@ import gameElements.Board;
 import gameElements.Game;
 
 public class GameUI extends JFrame implements Observer {
+	
 	private Game game;
 	
 	protected JButton[][] buttons;
@@ -94,7 +95,7 @@ public class GameUI extends JFrame implements Observer {
 		affichageBoard();
 		
 		panel.setSize(1000, 1000);
-
+		
 		add(panel);
 		
 		//--
@@ -108,15 +109,14 @@ public class GameUI extends JFrame implements Observer {
 	private void affichageBoard(){
 		buttons = new JButton[game.getWidth()][game.getHeight()];
 		
-		panel.setLayout(new GridLayout(game.getWidth(),game.getHeight()));
+		panel.setLayout(new GridLayout(game.getHeight(),game.getWidth()));
 		
-		for(int i=0;i<game.getWidth();i++){
-			for( int j=0; j<game.getHeight();j++){
+		for(int j=0; j<game.getHeight();j++){
+			for(int i=0;i<game.getWidth();i++){
 				buttons[i][j] = new JButton();
 			
 				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
 				buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
-				buttons[i][j].setSize(this.getWidth()/game.getWidth(), this.getHeight()/game.getHeight());
 				buttons[i][j].setBackground(new Color(39, 80, 186));
 				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
 				buttons[i][j].addActionListener(new ButtonClick(game, i));
@@ -127,12 +127,22 @@ public class GameUI extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		panel.removeAll();
+		if (game.getTypeModification() == 1){
+			panel.removeAll();
 		
-		affichageBoard();
+			affichageBoard();
 		
-		panel.revalidate();
-        panel.repaint();
+			panel.revalidate();
+        	panel.repaint();
+		}
+
+		if (game.getTypeModification() == 2){			
+			int x = game.getxSelectionne();
+			int y = game.getySelectionne();
+			buttons[x][y].setIcon(GraphicsFactory.getInstance().getRed());
+			
+			buttons[x][y].repaint();
+		}
 	}
 
 }

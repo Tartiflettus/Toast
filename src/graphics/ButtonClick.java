@@ -9,16 +9,19 @@ public class ButtonClick implements ActionListener {
 
 	private Game game;
 	private int x;
-
+	
+	
 	public ButtonClick(Game g, int x){
 		this.game=g;
-		this.x=x;
+		this.x=x;	
 	}
 
 	
 	
 	public void actionPerformed(ActionEvent arg0) {
+		game.poserPionRouge(x);
 		
+		System.out.println(game.toString());
 
 	}
 

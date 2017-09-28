@@ -25,12 +25,13 @@ public class Board {
 		
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0 ; i < width ; i++){
+		for (int j = 0 ; j < height ; j++){
 			sb.append("| ");
-			for (int j = 0 ; j < height ; j++){
+			for (int i = 0 ; i < width ; i++){
 				sb.append(board[i][j]);
+				sb.append(" | ");
 			}
-			sb.append("|\n");
+			sb.append("\n");
 		}
 		sb.append("\n");
 		return sb.toString();
@@ -46,6 +47,25 @@ public class Board {
 		Board b = new Board(width, height);
 		b.setBoard(res);
 		return b;
+	}
+	
+	public int selectionnerCaseAccessible(int x){
+		int y = height-1;
+		while (y >= 0 && getCell(x, y) != 0){
+			y--;
+		}
+		if (y >= 0){
+			return y;
+		}
+		return -1;
+	}
+		
+	public void poserPionRouge(int x, int y){
+		board[x][y] = 2;
+	}
+	
+	public void poserPionJaune(int x, int y){
+		board[x][y] = 1;
 	}
 	
 	public int getWidth() {
