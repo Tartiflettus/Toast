@@ -139,7 +139,12 @@ public class GameUI extends JFrame implements Observer {
 		if (game.getTypeModification() == 2){			
 			int x = game.getxSelectionne();
 			int y = game.getySelectionne();
-			buttons[x][y].setIcon(GraphicsFactory.getInstance().getRed());
+			if(game.getCell(x, y) == Board.RED){
+				buttons[x][y].setIcon(GraphicsFactory.getInstance().getRed());
+			}
+			if(game.getCell(x, y) == Board.YELLOW){
+				buttons[x][y].setIcon(GraphicsFactory.getInstance().getYellow());
+			}
 			
 			buttons[x][y].repaint();
 		}

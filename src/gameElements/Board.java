@@ -2,9 +2,9 @@ package gameElements;
 
 public class Board {
 	
-	public final int WHITE = 0;
-	public final int RED = 1;
-	public final int YELLOW = 2;
+	public final static int WHITE = 0;
+	public final static int RED = 1;
+	public final static int YELLOW = 2;
 	
 	protected int width;
 	protected int height;
@@ -61,13 +61,13 @@ public class Board {
 	}
 		
 	public void poserPionRouge(int x, int y){
-		board[x][y] = 2;
+		board[x][y] = RED;
 	}
 	
 	public void poserPionJaune(int x, int y){
-		board[x][y] = 1;
+		board[x][y] = YELLOW;
 	}
-	
+		
 	public int getWidth() {
 		return width;
 	}

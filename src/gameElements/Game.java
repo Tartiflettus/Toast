@@ -92,4 +92,8 @@ public class Game extends Observable {
 		return board.toString();
 	}
 	
+	public int getCell(int x, int y){
+		return board.getCell(x, y);
+	}
+	
 }
