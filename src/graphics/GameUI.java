@@ -50,6 +50,8 @@ public class GameUI extends JFrame implements Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		
+		game.addObserver(this);
+		
 		this.game = game;
 		
 		// JMENUBAR
@@ -76,33 +78,8 @@ public class GameUI extends JFrame implements Observer {
 			      JOptionPane.QUESTION_MESSAGE, null, null, null); 
 				
 			    if (option == JOptionPane.OK_OPTION){
-			    	/*
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * INITIALISER NOUVEAU MODEL
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * 
-			    	 * board = new Board((int)largeur.getSelectedItem(), (int)hauteur.getSelectedItem());
-			    	 * + UPDATE UI
-			    	 * 
-			    	 */
-			    	
+			    	game.reset((int)largeur.getSelectedItem(), (int)hauteur.getSelectedItem());
+			 
 			    	
 			    }
 			    
@@ -114,22 +91,8 @@ public class GameUI extends JFrame implements Observer {
 		
 		panel = new JPanel();
 		
-		buttons = new JButton[game.getWidth()][game.getHeight()];
+		affichageBoard();
 		
-		panel.setLayout(new GridLayout(game.getWidth(),game.getHeight()));
-		for(int i=0;i<game.getWidth();i++){
-			for( int j=0; j<game.getHeight();j++){
-				buttons[i][j] = new JButton();
-			
-				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
-				buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
-				
-				buttons[i][j].setBackground(new Color(39, 80, 186));
-				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
-				buttons[i][j].addActionListener(new ButtonClick(game, i));
-				panel.add(buttons[i][j]);
-			}
-		}
 		panel.setSize(1000, 1000);
 
 		add(panel);
@@ -141,9 +104,35 @@ public class GameUI extends JFrame implements Observer {
 
 	}
 
+	
+	private void affichageBoard(){
+		buttons = new JButton[game.getWidth()][game.getHeight()];
+		
+		panel.setLayout(new GridLayout(game.getWidth(),game.getHeight()));
+		
+		for(int i=0;i<game.getWidth();i++){
+			for( int j=0; j<game.getHeight();j++){
+				buttons[i][j] = new JButton();
+			
+				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
+				buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
+				buttons[i][j].setSize(this.getWidth()/game.getWidth(), this.getHeight()/game.getHeight());
+				buttons[i][j].setBackground(new Color(39, 80, 186));
+				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+				buttons[i][j].addActionListener(new ButtonClick(game, i));
+				panel.add(buttons[i][j]);
+			}
+		}
+	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		//TODO
+	public void update(Observable obs, Object arg1) {
+		panel.removeAll();
+		
+		affichageBoard();
+		
+		panel.revalidate();
+        panel.repaint();
 	}
+
 }
