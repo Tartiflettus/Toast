@@ -10,10 +10,9 @@ public class Board {
 	protected int height;
 	protected int[][] board;
 	
-	
 	public Board(){
 		width = 7;
-		height = 7;
+		height = 6;
 		board = new int[width][height];
 	}
 	
@@ -91,6 +90,8 @@ public class Board {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	
+	
 
 	//accès à la case (x,y) du plateau
 	public int getCell(int x, int y){

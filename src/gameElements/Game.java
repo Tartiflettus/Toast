@@ -1,7 +1,6 @@
 package gameElements;
 
 import java.util.Observable;
-import java.util.Observer;
 
 public class Game extends Observable {
 	
@@ -10,6 +9,8 @@ public class Game extends Observable {
 	int xSelectionne;
 	int ySelectionne;
 	
+	int joueurActuel;
+	
 	public static final int PAS_MODIF = 0, NOUVELLE_PARTIE = 1, POSER_PION = 2;
 
 	public Game() {
@@ -17,6 +18,7 @@ public class Game extends Observable {
 		typeModification = 0;
 		xSelectionne = -1;
 		ySelectionne = -1;
+		joueurActuel = Board.RED;
 	}
 	
 	private void maj(){
@@ -34,6 +36,7 @@ public class Game extends Observable {
 	
 	public void reset(int width, int height){
 		board = new Board(width, height);
+		joueurActuel = Board.RED;
 		typeModification = 1;
 		maj();
 		typeModification = 0;
@@ -49,6 +52,7 @@ public class Game extends Observable {
 			setBoutonSelectionne(x, y);
 			board.poserPionRouge(x, y);
 			typeModification = 2;
+			setJoueurActuel(Board.YELLOW);
 			maj();
 			typeModification = 0;
 		}
@@ -59,6 +63,19 @@ public class Game extends Observable {
 		if (y != -1){
 			setBoutonSelectionne(x, y);
 			board.poserPionJaune(x, y);
+			typeModification = 2;
+			maj();
+			typeModification = 0;
+		}
+	}
+	
+	public void ordiQuiJoue(){
+		int x = (int) (Math.random()*getBoard().getWidth());
+		int y = selectionnerCaseAccessible(x);
+		if (y != -1){
+			setBoutonSelectionne(x, y);
+			board.poserPionJaune(x, y);
+			setJoueurActuel(Board.RED);
 			typeModification = 2;
 			maj();
 			typeModification = 0;
@@ -90,6 +107,14 @@ public class Game extends Observable {
 		return ySelectionne;
 	}
 	
+	public int getJoueurActuel() {
+		return joueurActuel;
+	}
+
+	public void setJoueurActuel(int joueurActuel) {
+		this.joueurActuel = joueurActuel;
+	}
+
 	public String toString(){
 		return board.toString();
 	}

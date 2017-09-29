@@ -3,6 +3,7 @@ package graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import gameElements.Board;
 import gameElements.Game;
 
 public class ButtonClick implements ActionListener {
@@ -19,7 +20,13 @@ public class ButtonClick implements ActionListener {
 	
 	
 	public void actionPerformed(ActionEvent arg0) {
-		game.poserPionRouge(x);
+		if (game.getJoueurActuel() == Board.RED){
+			game.poserPionRouge(x);
+		}
+		else {
+			game.ordiQuiJoue();
+		}
+
 		
 		System.out.println(game.toString());
 
