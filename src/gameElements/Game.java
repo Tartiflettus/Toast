@@ -9,8 +9,6 @@ public class Game extends Observable {
 	int xSelectionne;
 	int ySelectionne;
 	
-	int joueurActuel;
-	
 	public static final int PAS_MODIF = 0, NOUVELLE_PARTIE = 1, POSER_PION = 2;
 
 	public Game() {
@@ -18,8 +16,8 @@ public class Game extends Observable {
 		typeModification = 0;
 		xSelectionne = -1;
 		ySelectionne = -1;
-		joueurActuel = Board.RED;
 	}
+	
 	
 	private void maj(){
 		setChanged();
@@ -36,7 +34,6 @@ public class Game extends Observable {
 	
 	public void reset(int width, int height){
 		board = new Board(width, height);
-		joueurActuel = Board.RED;
 		typeModification = 1;
 		maj();
 		typeModification = 0;
@@ -46,11 +43,11 @@ public class Game extends Observable {
 		return board.selectionnerCaseAccessible(x);
 	}
 	
-	public void poserPionRouge(int x){
+	public void poserPion(int x){
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){	
 			setBoutonSelectionne(x, y);
-			board.poserPionRouge(x, y);
+			board.poserPion(x, y);
 			typeModification = 2;
 			setJoueurActuel(Board.YELLOW);
 			maj();
@@ -58,7 +55,7 @@ public class Game extends Observable {
 		}
 	}
 	
-	public void poserPionJaune(int x){
+	/* public void poserPionJaune(int x){
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){
 			setBoutonSelectionne(x, y);
@@ -67,14 +64,14 @@ public class Game extends Observable {
 			maj();
 			typeModification = 0;
 		}
-	}
+	}  */
 	
 	public void ordiQuiJoue(){
 		int x = (int) (Math.random()*getBoard().getWidth());
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){
 			setBoutonSelectionne(x, y);
-			board.poserPionJaune(x, y);
+			board.poserPion(x, y);
 			setJoueurActuel(Board.RED);
 			typeModification = 2;
 			maj();
@@ -108,11 +105,11 @@ public class Game extends Observable {
 	}
 	
 	public int getJoueurActuel() {
-		return joueurActuel;
+		return board.getJoueurActuel();
 	}
 
 	public void setJoueurActuel(int joueurActuel) {
-		this.joueurActuel = joueurActuel;
+		board.setJoueurActuel(joueurActuel);
 	}
 
 	public String toString(){

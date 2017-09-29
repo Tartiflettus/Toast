@@ -1,5 +1,8 @@
 package gameElements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 	
 	public final static int WHITE = 0;
@@ -10,16 +13,20 @@ public class Board {
 	protected int height;
 	protected int[][] board;
 	
+	private int joueurActuel;
+	
 	public Board(){
 		width = 7;
 		height = 6;
 		board = new int[width][height];
+		joueurActuel = RED;
 	}
 	
 	public Board(int width, int height){
 		this.width = width;
 		this.height = height;
 		board = new int[width][height];
+		joueurActuel = RED;
 	}
 		
 	public String toString(){
@@ -45,7 +52,40 @@ public class Board {
 		}
 		Board b = new Board(width, height);
 		b.setBoard(res);
+		b.setJoueurActuel(joueurActuel);
 		return b;
+	}
+	
+	public List<Board> successeurs(){
+		List<Board> succ = new ArrayList<>();
+		for(int x = 0 ; x < width ; x++){
+			int y = selectionnerCaseAccessible(x);
+			if (y != -1){
+				Board cloneBoard = clone();
+				cloneBoard.poserPion(x,y);
+				succ.add(cloneBoard);
+			}
+		}
+		return succ;
+	}
+	
+	/*
+	 * RED = le joueur rouge a gagne
+	 * YELLOW = le joueur rouge a perdu
+	 * WHITE = le jeu n est pas final
+	 */
+	public int isFinal(){
+		return YELLOW; //TODO
+	}
+	
+	public int marcheAleatoire(){
+		int fin = isFinal();
+		if(fin != WHITE){
+			return fin == RED ? 1 : 0;
+		}
+		List<Board> succ = successeurs();
+		int index = ((int)Math.random())*succ.size();
+		return succ.get(index).marcheAleatoire();
 	}
 	
 	public int selectionnerCaseAccessible(int x){
@@ -59,14 +99,14 @@ public class Board {
 		return -1;
 	}
 		
-	public void poserPionRouge(int x, int y){
-		board[x][y] = RED;
+	public void poserPion(int x, int y){
+		if(joueurActuel == RED){
+			board[x][y] = RED;
+		} else {
+			board[x][y] = YELLOW;
+		}
 	}
 	
-	public void poserPionJaune(int x, int y){
-		board[x][y] = YELLOW;
-	}
-		
 	public int getWidth() {
 		return width;
 	}
@@ -90,8 +130,14 @@ public class Board {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
-	
+
+	public int getJoueurActuel() {
+		return joueurActuel;
+	}
+
+	public void setJoueurActuel(int joueurActuel) {
+		this.joueurActuel = joueurActuel;
+	}
 
 	//accès à la case (x,y) du plateau
 	public int getCell(int x, int y){
