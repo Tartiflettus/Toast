@@ -9,6 +9,8 @@ public class Game extends Observable {
 	int typeModification;  // 0 = pas de modif ; 1 = nouvelle partie ; 2 = poser un pion
 	int xSelectionne;
 	int ySelectionne;
+	
+	public static final int PAS_MODIF = 0, NOUVELLE_PARTIE = 1, POSER_PION = 2;
 
 	public Game() {
 		board = new Board();

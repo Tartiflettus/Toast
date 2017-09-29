@@ -127,7 +127,7 @@ public class GameUI extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		if (game.getTypeModification() == 1){
+		if (game.getTypeModification() == Game.NOUVELLE_PARTIE){
 			panel.removeAll();
 		
 			affichageBoard();
@@ -136,7 +136,7 @@ public class GameUI extends JFrame implements Observer {
         	panel.repaint();
 		}
 
-		if (game.getTypeModification() == 2){			
+		if (game.getTypeModification() == Game.POSER_PION){			
 			int x = game.getxSelectionne();
 			int y = game.getySelectionne();
 			if(game.getCell(x, y) == Board.RED){
