@@ -19,14 +19,23 @@ public class ArbreMonteCarlo {
 	
 	private Board board;
 	
-	private double mu(){
+	/*
+	 * Moyenne des récompenses
+	 */
+	public double mu(){
 		return Si / (double) Ni; 
 	}
 	
+	/*
+	 * Nombre de passages par le noeud
+	 */
 	private int getNi(){
 		return Ni;
 	}
 	
+	/*
+	 * Nombre de passages par le noeud du parent
+	 */
 	private int NParent(){
 		if(parent == null) return 0;
 		return parent.getNi();
@@ -43,20 +52,25 @@ public class ArbreMonteCarlo {
 		board = b;
 	}
 	
-	
-	public void majBValeur(int r){
+	/*
+	 * Mise à jour de la BValeur en fonction de la récompense
+	 */
+	private void majBValeur(int r){
 		Si += (double) r;
 		Ni++;
 	}
 	
-	public double getBValeur(){
+	/*
+	 * BValeur
+	 */
+	private double getBValeur(){
 		return mu() + C * Math.sqrt(Math.log(NParent()) / Ni);
 	}
 	
 	/*
 	 * Récupérer les fils sans BValeur
 	 */
-	public Iterable<ArbreMonteCarlo> getFilsSansBValeur(){
+	private Iterable<ArbreMonteCarlo> getFilsSansBValeur(){
 		if(filsSansBValeur == null){
 			filsSansBValeur = new HashSet<>();
 			for(Board b : board.successeurs()){
@@ -66,14 +80,14 @@ public class ArbreMonteCarlo {
 		return filsSansBValeur;
 	}
 	
-	public Iterable<ArbreMonteCarlo> getFilsAvecBValeur(){
+	private Iterable<ArbreMonteCarlo> getFilsAvecBValeur(){
 		return filsAvecBValeur;
 	}
 	
 	/*
 	 * Récupérer le noeud de plus grande B-Valeur
 	 */
-	public ArbreMonteCarlo selecPlusGrandeBValeur(){
+	private ArbreMonteCarlo selecPlusGrandeBValeur(){
 		double BMax = -1;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFilsAvecBValeur()){
@@ -88,11 +102,16 @@ public class ArbreMonteCarlo {
 	/*
 	 * Un noeud est terminal si au moins un fils n'a pas de BValeur (y compris non créé)
 	 */
-	public boolean estTerminal(){
+	private boolean estTerminal(){
 		return filsSansBValeur == null || filsSansBValeur.size() != 0;
 	}
 	
-	public int marcheAleatoire(){
+	/*
+	 * Déroule une partie avec des coups aléatoires.
+	 * Renvoie la récompense de cette partie
+	 * (voir Board::marcheAleatoire)
+	 */
+	private int marcheAleatoire(){
 		return board.marcheAleatoire();
 	}
 	
