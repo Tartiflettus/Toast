@@ -1,7 +1,10 @@
 package gameElements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import except.CaseOccupeeException;
 
 public class Board {
 	
@@ -63,6 +66,7 @@ public class Board {
 			if (y != -1){
 				Board cloneBoard = clone();
 				cloneBoard.poserPion(x,y);
+				cloneBoard.swapJoueurActuel();
 				succ.add(cloneBoard);
 			}
 		}
@@ -123,13 +127,6 @@ public class Board {
 		this.board = board;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
 
 	public int getJoueurActuel() {
 		return joueurActuel;
@@ -138,9 +135,46 @@ public class Board {
 	public void setJoueurActuel(int joueurActuel) {
 		this.joueurActuel = joueurActuel;
 	}
+	
+	public void swapJoueurActuel(){
+		joueurActuel = joueurActuel == YELLOW ? RED : YELLOW;
+	}
 
 	//accès à la case (x,y) du plateau
 	public int getCell(int x, int y){
 		return board[x][y];
 	}
+	
+	//accès à la case (x,y) du plateau
+	//exception si la case n'est pas vide
+	public void setCell(int x, int y, int color){
+		if(board[x][y] != WHITE){
+			throw new CaseOccupeeException(this);
+		}
+		board[x][y] = color;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Board other = (Board) obj;
+		if(width != other.width || height != other.height){
+			return false;
+		}
+		for(int i=0; i < width; ++i){
+			for(int j=0; j < height; ++j){
+				if(getCell(i, j) != other.getCell(i, j)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	
 }
