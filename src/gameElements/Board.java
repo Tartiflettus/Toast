@@ -12,17 +12,20 @@ public class Board {
 	public final static int RED = 1;
 	public final static int YELLOW = 2;
 	
-	protected int width;
-	protected int height;
-	protected int[][] board;
+	private int width;
+	private int height;
+	private int[][] board;
+	private int cptPions;
 	
 	private int joueurActuel;
+	
 	
 	public Board(){
 		width = 7;
 		height = 6;
 		board = new int[width][height];
 		joueurActuel = RED;
+		cptPions = 0;
 	}
 	
 	public Board(int width, int height){
@@ -30,6 +33,7 @@ public class Board {
 		this.height = height;
 		board = new int[width][height];
 		joueurActuel = RED;
+		cptPions = 0;
 	}
 		
 	public String toString(){
@@ -56,6 +60,7 @@ public class Board {
 		Board b = new Board(width, height);
 		b.setBoard(res);
 		b.setJoueurActuel(joueurActuel);
+		b.cptPions = cptPions;
 		return b;
 	}
 	
@@ -82,6 +87,15 @@ public class Board {
 		return YELLOW; //TODO
 	}
 	
+	public boolean estRempli(){
+		return cptPions == width * height;
+	}
+	
+	/*
+	 * Joue la partie jusque la fin, puis renvoie le résultat:
+	 * 1 si le rouge a gagné
+	 * 0 si le jaune a gagné ou que le plateau est complet
+	 */
 	public int marcheAleatoire(){
 		int fin = isFinal();
 		if(fin != WHITE){
@@ -105,9 +119,9 @@ public class Board {
 		
 	public void poserPion(int x, int y){
 		if(joueurActuel == RED){
-			board[x][y] = RED;
+			setCell(x, y, RED);
 		} else {
-			board[x][y] = YELLOW;
+			setCell(x, y, YELLOW);
 		}
 	}
 	
@@ -152,6 +166,9 @@ public class Board {
 			throw new CaseOccupeeException(this);
 		}
 		board[x][y] = color;
+		if(color != WHITE){
+			++cptPions;
+		}
 	}
 
 	@Override
