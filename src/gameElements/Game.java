@@ -18,7 +18,9 @@ public class Game extends Observable {
 		ySelectionne = -1;
 	}
 	
-	
+	/*
+	 * Prévient les vues que le modèle a été modifié
+	 */
 	private void maj(){
 		setChanged();
 		notifyObservers();
@@ -32,40 +34,44 @@ public class Game extends Observable {
 		return board.getHeight();
 	}
 	
+	/*
+	 * Remet le plateau à 0
+	 */
 	public void reset(int width, int height){
 		board = new Board(width, height);
-		typeModification = 1;
+		typeModification = NOUVELLE_PARTIE;
 		maj();
-		typeModification = 0;
+		typeModification = PAS_MODIF;
 	}
 	
+	/*
+	 * Renvoie la ligne d'une case accessible de colonne x
+	 * Ou -1 si la colonne est pleine
+	 */
 	public int selectionnerCaseAccessible(int x){
 		return board.selectionnerCaseAccessible(x);
 	}
 	
+	/*
+	 * Pose un pion dans la colonne x
+	 * Ne fait rien si la colonne est pleine
+	 */
 	public void poserPion(int x){
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){	
 			setBoutonSelectionne(x, y);
 			board.poserPion(x, y);
-			typeModification = 2;
+			typeModification = POSER_PION;
 			setJoueurActuel(Board.YELLOW);
 			maj();
-			typeModification = 0;
+			typeModification = PAS_MODIF;
 		}
 	}
 	
-	/* public void poserPionJaune(int x){
-		int y = selectionnerCaseAccessible(x);
-		if (y != -1){
-			setBoutonSelectionne(x, y);
-			board.poserPionJaune(x, y);
-			typeModification = 2;
-			maj();
-			typeModification = 0;
-		}
-	}  */
-	
+	/*
+	 * L'ordi pose un pion dans une colonne au hasard.
+	 * Peut échouer si la colonne choisie est remplie
+	 */
 	public void ordiQuiJoue(){
 		int x = (int) (Math.random()*getBoard().getWidth());
 		int y = selectionnerCaseAccessible(x);
@@ -73,9 +79,9 @@ public class Game extends Observable {
 			setBoutonSelectionne(x, y);
 			board.poserPion(x, y);
 			setJoueurActuel(Board.RED);
-			typeModification = 2;
+			typeModification = POSER_PION;
 			maj();
-			typeModification = 0;
+			typeModification = PAS_MODIF;
 		}
 	}
 
@@ -87,10 +93,16 @@ public class Game extends Observable {
 		this.board = board;
 	}
 
+	/*
+	 * Indique quelle partie de l'affichage est modifiée
+	 */
 	public int getTypeModification() {
 		return typeModification;
 	}
 
+	/*
+	 * Indique quelle case a été modifiée en dernier
+	 */
 	private void setBoutonSelectionne(int x, int y){
 		xSelectionne = x;
 		ySelectionne = y;
