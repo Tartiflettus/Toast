@@ -21,11 +21,7 @@ public class Board {
 	
 	
 	public Board(){
-		width = 7;
-		height = 6;
-		board = new int[width][height];
-		joueurActuel = RED;
-		cptPions = 0;
+		this(7, 6);
 	}
 	
 	public Board(int width, int height){
@@ -132,12 +128,8 @@ public class Board {
 	public int getHeight() {
 		return height;
 	}
-	
-	public int[][] getBoard() {
-		return board;
-	}
 
-	public void setBoard(int[][] board) {
+	private void setBoard(int[][] board) {
 		this.board = board;
 	}
 
