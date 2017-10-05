@@ -79,8 +79,47 @@ public class Board {
 	 * YELLOW = le joueur rouge a perdu
 	 * WHITE = le jeu n est pas final
 	 */
+	
 	public int isFinal(){
-		return YELLOW; //TODO
+		for(int i = 0 ; i < width; i++){
+			for (int j = 0 ; j < height ; j++){
+				if (getCell(i,j) != WHITE){
+					int gagne = isFinal(i,j);
+					if (gagne != WHITE){
+						return gagne;
+					}
+				}
+			}
+		}
+		return WHITE;
+	}
+	
+	public int isFinal(int x, int y){
+		int horizontal = 1 + isFinalAux(x, y, 1, 0) + isFinalAux(x, y, -1, 0);
+		int vertical = 1 + isFinalAux(x, y, 0, 1) + isFinalAux(x, y, 0, -1);
+		int diagonale1 = 1 + isFinalAux(x, y, -1, -1) + isFinalAux(x, y, 1, 1);
+		int diagonale2 = 1 + isFinalAux(x, y, 1, -1) + isFinalAux(x, y, -1, 1);
+		if (horizontal >= 4 || vertical >= 4 || diagonale1 >= 4 || diagonale2 >=4){
+			return getCell(x,y);
+		}
+		if(estRempli()){
+			return YELLOW;
+		}
+			return WHITE;	
+	}
+	
+	
+	public int isFinalAux(int x, int y, int dx, int dy){
+		int couleur = getCell(x,y);
+		int cpt = 0;
+		int i = x + dx, j = y + dy;
+		while (i < width && i >= 0 && j >= 0 && j < height && getCell(i,j) == couleur){
+			cpt++;
+			
+			i += dx;
+			j += dy;
+		}
+		return cpt;		
 	}
 	
 	public boolean estRempli(){
