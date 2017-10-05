@@ -50,6 +50,46 @@ public class BoardTester {
 		b.poserPion(1, 0);
 		assert(b.estRempli()):"Plateau non dÃ©tectÃ© comme rempli alors qu'il l'est";
 		
+		//test des fonctions isFinal de la classe Board
+		//vertical
+		b = new Board(5,5);
+		assert(b.isFinal() == Board.WHITE):"isFinal() retourne qu'un joueur a gagné alors que le plateau est vide";
+		
+		b.poserPion(0, 1);
+		b.poserPion(0, 2);
+		b.poserPion(0, 3);
+		b.poserPion(0, 4);
+		assert(b.isFinal(0, 2) != Board.WHITE): "isFinal(x,y) retourne que personne n'a gagné alors que c'est faux";
+		assert(b.isFinal() != Board.WHITE): "isFinal retourne que personne n'a gagné alors que c'est faux";
+		
+		//horizontal
+		b = new Board(5,5);
+		b.poserPion(1, 0);
+		b.poserPion(2, 0);
+		b.poserPion(3, 0);
+		b.poserPion(4, 0);
+		assert(b.isFinal(2,0) != Board.WHITE): "isFinal(x,y) retourne que personne n'a gagné alors que c'est faux";
+		assert(b.isFinal() != Board.WHITE): "isFinal retourne que personne n'a gagné alors que c'est faux";
+		
+		//diagonale 1
+		b = new Board(5,5);
+		b.poserPion(1, 0);
+		b.poserPion(2, 1);
+		b.poserPion(3, 2);
+		b.poserPion(4, 3);
+		assert(b.isFinal(2,1) != Board.WHITE): "isFinal(x,y) retourne que personne n'a gagné alors que c'est faux";
+		assert(b.isFinal() != Board.WHITE): "isFinal retourne que personne n'a gagné alors que c'est faux";
+		
+		//diagonale 2
+		b = new Board(5,5);
+		b.poserPion(1, 3);
+		b.poserPion(2, 2);
+		b.poserPion(3, 1);
+		b.poserPion(4, 0);
+		assert(b.isFinal(2,2) != Board.WHITE): "isFinal(x,y) retourne que personne n'a gagné alors que c'est faux";
+		assert(b.isFinal() != Board.WHITE): "isFinal retourne que personne n'a gagné alors que c'est faux";
+		
+		
 		System.out.println("OK");
 	}
 
