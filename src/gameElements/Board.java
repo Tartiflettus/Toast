@@ -42,7 +42,6 @@ public class Board {
 			}
 			sb.append("\n");
 		}
-		sb.append("\n");
 		return sb.toString();
 	}
 
@@ -134,10 +133,11 @@ public class Board {
 	public int marcheAleatoire(){
 		int fin = isFinal();
 		if(fin != WHITE){
+			System.out.println(toString());
 			return fin == RED ? 1 : 0;
 		}
 		List<Board> succ = successeurs();
-		int index = ((int)Math.random())*succ.size();
+		int index = ((int)(Math.random()*succ.size()));
 		return succ.get(index).marcheAleatoire();
 	}
 	

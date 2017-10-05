@@ -89,7 +89,6 @@ public class BoardTester {
 		assert(b.isFinal(2,2) != Board.WHITE): "isFinal(x,y) retourne que personne n'a gagné alors que c'est faux";
 		assert(b.isFinal() != Board.WHITE): "isFinal retourne que personne n'a gagné alors que c'est faux";
 		
-		
 		System.out.println("OK");
 	}
 
