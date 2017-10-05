@@ -70,7 +70,7 @@ public class ArbreMonteCarlo {
 	/*
 	 * Récupérer les fils sans BValeur
 	 */
-	private Iterable<ArbreMonteCarlo> getFilsSansBValeur(){
+	public Set<ArbreMonteCarlo> getFilsSansBValeur(){
 		if(filsSansBValeur == null){
 			filsSansBValeur = new HashSet<>();
 			for(Board b : board.successeurs()){
@@ -80,9 +80,13 @@ public class ArbreMonteCarlo {
 		return filsSansBValeur;
 	}
 	
-	private Iterable<ArbreMonteCarlo> getFilsAvecBValeur(){
+	/*
+	 * Récupérer les fils avec une BValeur
+	 */
+	private Set<ArbreMonteCarlo> getFilsAvecBValeur(){
 		return filsAvecBValeur;
 	}
+
 	
 	/*
 	 * Récupérer le noeud de plus grande B-Valeur
@@ -122,5 +126,28 @@ public class ArbreMonteCarlo {
 		suivant.MCTS();
 		
 	}*/
+	
+	public static boolean near(double f1, double f2){
+		return Math.abs(f1 - f2) < 0.0001;
+	}
+	
+	
+	public static void main(String[] args){
+		ArbreMonteCarlo a = new ArbreMonteCarlo(new Board(2, 2));
+		
+		//test du nombre de fils (successeurs)
+		Set<ArbreMonteCarlo> succs = a.getFilsSansBValeur();
+		assert(succs.size() == 2):"Mauvais nombre de successeurs";
+		
+		//maj de BValeur
+		a.majBValeur(1); //victoire
+		assert(a.mu() == 1f):"Mauvaise moyenne des récompenses";
+		a.majBValeur(1); //victoire
+		assert(a.mu() == 1f):"Mauvaise moyenne des récompenses";
+		a.majBValeur(0); //défaite
+		assert(near(a.mu(), 2f/3f));
+		
+		System.out.println("OK");
+	}
 
 }
