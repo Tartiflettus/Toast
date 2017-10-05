@@ -160,6 +160,13 @@ public class Board {
 		}
 	}
 	
+	public void poserPion(int x){
+		int y = selectionnerCaseAccessible(x);
+		if(y != -1){
+			poserPion(x, y);
+		}
+	}
+	
 	public int getWidth() {
 		return width;
 	}

@@ -21,7 +21,19 @@ public class BoardTester {
 				}
 			}
 		}
+		//test du cas où il n'y a pas toutes les colonnes dispos
+		b = new Board(2, 2);
+		b.poserPion(0);
+		b.poserPion(0);
+		succs = b.successeurs();
+		assert(succs.size() == 1):"On attend un seul successeur";
+		b.poserPion(1);
+		b.poserPion(1);
+		succs = b.successeurs();
+		assert(succs.isEmpty()):"On n'attend aucun successeur, le plateau est rempli";
+		
 		//test du placement de pions
+		b = new Board(3, 3);
 		b.setCell(0, 0, Board.RED);
 		assert(b.getCell(0, 0) == Board.RED):"setCell ne place pas la bonne couleur";
 		try{
