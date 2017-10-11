@@ -144,6 +144,7 @@ public class ArbreMonteCarlo {
 		assert(a.mu() == 1f):"Mauvaise moyenne des récompenses";
 		a.majBValeur(0); //défaite
 		assert(FloatUtility.near(a.mu(), 2d/3d)):"Mauvaise moyenne des récompenses";
+		assert(a.getNi() == 3):"Mauvais comptage du nombre de mises à jour";
 		
 		System.out.println("OK");
 	}
