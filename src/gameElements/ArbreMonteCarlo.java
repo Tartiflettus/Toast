@@ -42,15 +42,18 @@ public class ArbreMonteCarlo {
 		return parent.getNi();
 	}
 
-	public ArbreMonteCarlo() {
+	
+	public ArbreMonteCarlo(Board bo){
+		board = bo;
 		Ni = 0;
 		Si = 0;
 		filsAvecBValeur = new ArrayList<>();
-	}
-	
-	public ArbreMonteCarlo(Board b){
-		this();
-		board = b;
+		filsSansBValeur = new ArrayList<>();
+		for(Board b : board.successeurs()){
+			ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
+			arbre.setParent(this);
+			filsSansBValeur.add(new ArbreMonteCarlo(b));
+		}
 	}
 	
 	/*
@@ -72,14 +75,6 @@ public class ArbreMonteCarlo {
 	 * Récupérer les fils sans BValeur
 	 */
 	public List<ArbreMonteCarlo> getFilsSansBValeur(){
-		if(filsSansBValeur == null){
-			filsSansBValeur = new ArrayList<>();
-			for(Board b : board.successeurs()){
-				ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
-				arbre.setParent(this);
-				filsSansBValeur.add(new ArbreMonteCarlo(b));
-			}
-		}
 		return filsSansBValeur;
 	}
 	
@@ -110,7 +105,7 @@ public class ArbreMonteCarlo {
 	 * Un noeud est terminal si au moins un fils n'a pas de BValeur (y compris non créé)
 	 */
 	private boolean possedeNonDeveloppe(){
-		return filsSansBValeur == null || filsSansBValeur.size() != 0;
+		return filsSansBValeur.size() != 0;
 	}
 	
 	private boolean estTerminal(){
@@ -128,8 +123,7 @@ public class ArbreMonteCarlo {
 	
 	public void MCTS(){
 		if (estTerminal()){
-			int marcheAlea = marcheAleatoire();
-			miseAJourParBackTracking(marcheAlea);
+			marcheAleatoireEtMiseAJour();
 		}
 		if (possedeNonDeveloppe()){
 			/* Developpement de C3 (cf cours) */
@@ -140,15 +134,17 @@ public class ArbreMonteCarlo {
 			
 			/* Developpement de C31 */
 			List<ArbreMonteCarlo> lesPetitsFils = fils.getFilsSansBValeur();
+			if (!fils.possedeNonDeveloppe()){ // aucun fils sans B-Valeur
+				fils.marcheAleatoireEtMiseAJour();
+				return;  // pas de petit fils donc marche aleatoire sur fils
+			}
 			index = (int)Math.random()*lesPetitsFils.size();
 			ArbreMonteCarlo petitFils = lesPetitsFils.get(index);
 			changerListe(index);
 			
-			/* Marche al�atoire sur C31 */
-			int marcheAlea = petitFils.marcheAleatoire();
-			
-			/* Mettre a jour par backtracking */
-			petitFils.miseAJourParBackTracking(marcheAlea);
+
+			/* Marche Aleatoire + Mettre a jour par backtracking */
+			petitFils.marcheAleatoireEtMiseAJour();
 		}
 		ArbreMonteCarlo suivant = selecPlusGrandeBValeur();
 		if(suivant != null){
@@ -157,10 +153,12 @@ public class ArbreMonteCarlo {
 		
 	}
 	
-	private void miseAJourParBackTracking(int recompense){
+	private void marcheAleatoireEtMiseAJour(){
 		ArbreMonteCarlo noeudActuel = this;
+		int marcheAlea = noeudActuel.marcheAleatoire();
+		
 		while (noeudActuel != null){
-			noeudActuel.majBValeur(recompense);
+			noeudActuel.majBValeur(marcheAlea);
 			noeudActuel = noeudActuel.parent;
 		}
 	}
