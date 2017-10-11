@@ -4,12 +4,11 @@ import java.util.Observable;
 
 public class Game extends Observable {
 	
-	Board board;
+	private Board board;
 	int typeModification;  // 0 = pas de modif ; 1 = nouvelle partie ; 2 = poser un pion
 	int xSelectionne;
 	int ySelectionne;
 	
-	public static final int PAS_MODIF = 0, NOUVELLE_PARTIE = 1, POSER_PION = 2;
 
 	public Game() {
 		board = new Board();
@@ -39,9 +38,7 @@ public class Game extends Observable {
 	 */
 	public void reset(int width, int height){
 		board = new Board(width, height);
-		typeModification = NOUVELLE_PARTIE;
 		maj();
-		typeModification = PAS_MODIF;
 	}
 	
 	/*
@@ -61,10 +58,8 @@ public class Game extends Observable {
 		if (y != -1){	
 			setBoutonSelectionne(x, y);
 			board.poserPion(x, y);
-			typeModification = POSER_PION;
 			setJoueurActuel(Board.YELLOW);
 			maj();
-			typeModification = PAS_MODIF;
 		}
 	}
 	
@@ -73,7 +68,7 @@ public class Game extends Observable {
 	 * Peut échouer si la colonne choisie est remplie
 	 */
 	public void ordiQuiJoue(){
-		int x = (int) (Math.random()*getBoard().getWidth());
+		/* int x = (int) (Math.random()*getBoard().getWidth());
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){
 			setBoutonSelectionne(x, y);
@@ -83,6 +78,16 @@ public class Game extends Observable {
 			maj();
 			typeModification = PAS_MODIF;
 		}
+		*/
+		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
+		for (int i = 0 ; i < 20 ; i ++){
+			arbre.MCTS();
+		}
+		ArbreMonteCarlo plusGrand = arbre.selecPlusGrandeBValeur();
+		board = plusGrand.getBoard();
+		setJoueurActuel(Board.RED);
+		
+		maj();
 	}
 
 	public Board getBoard() {
@@ -127,7 +132,7 @@ public class Game extends Observable {
 	public String toString(){
 		return board.toString();
 	}
-	
+		
 	public int getCell(int x, int y){
 		return board.getCell(x, y);
 	}

@@ -85,7 +85,7 @@ public class ArbreMonteCarlo {
 	/*
 	 * Récupérer le noeud de plus grande B-Valeur
 	 */
-	private ArbreMonteCarlo selecPlusGrandeBValeur(){
+	public ArbreMonteCarlo selecPlusGrandeBValeur(){
 		double BMax = -1;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFilsAvecBValeur()){
@@ -174,6 +174,11 @@ public class ArbreMonteCarlo {
 		filsSansBValeur.remove(i);
 	}
 	
+	
+	public Board getBoard() {
+		return board;
+	}
+
 	private void setParent(ArbreMonteCarlo parent) {
 		this.parent = parent;
 	}

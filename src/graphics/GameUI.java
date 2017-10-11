@@ -116,7 +116,15 @@ public class GameUI extends JFrame implements Observer {
 				buttons[i][j] = new JButton();
 			
 				/* IMAGE ICON ROND_BLANC A PLACER SUR TOUS LES JBUTTONS */
-				buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
+				if (game.getBoard().getCell(i, j) == Board.RED){
+					buttons[i][j].setIcon(GraphicsFactory.getInstance().getRed());
+				}
+				if (game.getBoard().getCell(i, j) == Board.YELLOW){
+					buttons[i][j].setIcon(GraphicsFactory.getInstance().getYellow());		
+				}
+				if (game.getBoard().getCell(i, j) == Board.WHITE){
+					buttons[i][j].setIcon(GraphicsFactory.getInstance().getWhite());
+				}
 				buttons[i][j].setBackground(new Color(39, 80, 186));
 				buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
 				buttons[i][j].addActionListener(new ButtonClick(game, i));
@@ -127,15 +135,15 @@ public class GameUI extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		if (game.getTypeModification() == Game.NOUVELLE_PARTIE){
+		//if (game.getTypeModification() == Game.NOUVELLE_PARTIE){
 			panel.removeAll();
 		
 			affichageBoard();
 		
 			panel.revalidate();
         	panel.repaint();
-		}
-
+		//}
+/*
 		if (game.getTypeModification() == Game.POSER_PION){			
 			int x = game.getxSelectionne();
 			int y = game.getySelectionne();
@@ -148,6 +156,7 @@ public class GameUI extends JFrame implements Observer {
 			
 			buttons[x][y].repaint();
 		}
+		*/
 	}
 
 }
