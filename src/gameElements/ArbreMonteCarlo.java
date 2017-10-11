@@ -48,13 +48,9 @@ public class ArbreMonteCarlo {
 		Ni = 0;
 		Si = 0;
 		filsAvecBValeur = new ArrayList<>();
-		filsSansBValeur = new ArrayList<>();
-		for(Board b : board.successeurs()){
-			ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
-			arbre.setParent(this);
-			filsSansBValeur.add(new ArbreMonteCarlo(b));
-		}
+		
 	}
+
 	
 	/*
 	 * Mise à jour de la BValeur en fonction de la récompense
@@ -122,6 +118,7 @@ public class ArbreMonteCarlo {
 	}
 	
 	public void MCTS(){
+		System.out.println("MCTS");
 		if (estTerminal()){
 			marcheAleatoireEtMiseAJour();
 		}
@@ -160,6 +157,15 @@ public class ArbreMonteCarlo {
 		while (noeudActuel != null){
 			noeudActuel.majBValeur(marcheAlea);
 			noeudActuel = noeudActuel.parent;
+		}
+	}
+	
+	private void developper(){
+		filsSansBValeur = new ArrayList<>();
+		for(Board b : board.successeurs()){
+			ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
+			arbre.setParent(this);
+			filsSansBValeur.add(new ArbreMonteCarlo(b));
 		}
 	}
 	
