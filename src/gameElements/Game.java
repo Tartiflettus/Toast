@@ -4,18 +4,11 @@ import java.util.Observable;
 
 public class Game extends Observable {
 	
-	Board board;
-	int typeModification;  // 0 = pas de modif ; 1 = nouvelle partie ; 2 = poser un pion
-	int xSelectionne;
-	int ySelectionne;
-	
-	public static final int PAS_MODIF = 0, NOUVELLE_PARTIE = 1, POSER_PION = 2;
+	private Board board;
+
 
 	public Game() {
 		board = new Board();
-		typeModification = 0;
-		xSelectionne = -1;
-		ySelectionne = -1;
 	}
 	
 	/*
@@ -39,9 +32,7 @@ public class Game extends Observable {
 	 */
 	public void reset(int width, int height){
 		board = new Board(width, height);
-		typeModification = NOUVELLE_PARTIE;
 		maj();
-		typeModification = PAS_MODIF;
 	}
 	
 	/*
@@ -57,15 +48,9 @@ public class Game extends Observable {
 	 * Ne fait rien si la colonne est pleine
 	 */
 	public void poserPion(int x){
-		int y = selectionnerCaseAccessible(x);
-		if (y != -1){	
-			setBoutonSelectionne(x, y);
-			board.poserPion(x, y);
-			typeModification = POSER_PION;
-			setJoueurActuel(Board.YELLOW);
-			maj();
-			typeModification = PAS_MODIF;
-		}
+		board.poserPion(x);
+		setJoueurActuel(Board.YELLOW);
+		maj();
 	}
 	
 	/*
@@ -73,7 +58,7 @@ public class Game extends Observable {
 	 * Peut échouer si la colonne choisie est remplie
 	 */
 	public void ordiQuiJoue(){
-		int x = (int) (Math.random()*getBoard().getWidth());
+		/* int x = (int) (Math.random()*getBoard().getWidth());
 		int y = selectionnerCaseAccessible(x);
 		if (y != -1){
 			setBoutonSelectionne(x, y);
@@ -83,6 +68,16 @@ public class Game extends Observable {
 			maj();
 			typeModification = PAS_MODIF;
 		}
+		*/
+		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
+		for (int i = 0 ; i < 20 ; i ++){
+			arbre.MCTS();
+		}
+		ArbreMonteCarlo plusGrand = arbre.selecPlusGrandeBValeur();
+		board = plusGrand.getBoard();
+		setJoueurActuel(Board.RED);
+		
+		maj();
 	}
 
 	public Board getBoard() {
@@ -93,28 +88,11 @@ public class Game extends Observable {
 		this.board = board;
 	}
 
-	/*
-	 * Indique quelle partie de l'affichage est modifiée
-	 */
-	public int getTypeModification() {
-		return typeModification;
-	}
+
 
 	/*
 	 * Indique quelle case a été modifiée en dernier
 	 */
-	private void setBoutonSelectionne(int x, int y){
-		xSelectionne = x;
-		ySelectionne = y;
-	}
-
-	public int getxSelectionne() {
-		return xSelectionne;
-	}
-
-	public int getySelectionne() {
-		return ySelectionne;
-	}
 	
 	public int getJoueurActuel() {
 		return board.getJoueurActuel();
@@ -127,7 +105,7 @@ public class Game extends Observable {
 	public String toString(){
 		return board.toString();
 	}
-	
+		
 	public int getCell(int x, int y){
 		return board.getCell(x, y);
 	}
