@@ -71,7 +71,9 @@ public class Game extends Observable {
 		*/
 		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
 		arbre.developper();
-		for (int i = 0 ; i < 50 ; i ++){
+		final long start = System.currentTimeMillis();
+		final long end = start + 1000 * 1;
+		while(System.currentTimeMillis() < end){
 			arbre.MCTS();
 		}
 		ArbreMonteCarlo plusGrand = arbre.selecPlusGrandeBValeur();
