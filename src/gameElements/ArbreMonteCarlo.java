@@ -142,8 +142,10 @@ public class ArbreMonteCarlo {
 	public void MCTS(){
 		if (estTerminal()){
 			marcheAleatoireEtMiseAJour();
+			return;
 		}
 		if (possedeNonDeveloppe()){
+			//System.out.println("non developpe");
 			/* Developpement de C3 (cf cours) */
 			List<ArbreMonteCarlo> lesFils = getFilsNonDeveloppes();
 			int index = (int)Math.random()*lesFils.size();
@@ -161,8 +163,10 @@ public class ArbreMonteCarlo {
 			
 			/* Marche Aleatoire + Mettre a jour par backtracking */
 			petitFils.marcheAleatoireEtMiseAJour();
+			return;
 		}
 		//appels récursifs
+		//System.out.println("Dev");
 		ArbreMonteCarlo suivant = selecPlusGrandeBValeur();
 		if(suivant != null){
 			suivant.MCTS();
@@ -180,12 +184,12 @@ public class ArbreMonteCarlo {
 		}
 	}
 	
-	private void developper(){
+	public void developper(){
 		filsNonDeveloppes = new ArrayList<>();
 		for(Board b : board.successeurs()){
 			ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
 			arbre.setParent(this);
-			filsNonDeveloppes.add(new ArbreMonteCarlo(b));
+			filsNonDeveloppes.add(arbre);
 		}
 		developpe = true;
 		if(parent != null){ //mettre à jour la liste du parent
@@ -226,5 +230,29 @@ public class ArbreMonteCarlo {
 		
 		System.out.println("OK");
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArbreMonteCarlo other = (ArbreMonteCarlo) obj;
+		
+		return other == this; //comparer les adresses
+	}
+	
+	
+	
 
 }

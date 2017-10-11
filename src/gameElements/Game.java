@@ -70,13 +70,14 @@ public class Game extends Observable {
 		}
 		*/
 		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
-		for (int i = 0 ; i < 20 ; i ++){
+		arbre.developper();
+		for (int i = 0 ; i < 50 ; i ++){
 			arbre.MCTS();
 		}
 		ArbreMonteCarlo plusGrand = arbre.selecPlusGrandeBValeur();
 		board = plusGrand.getBoard();
-		setJoueurActuel(Board.RED);
 		
+		setJoueurActuel(Board.RED);
 		maj();
 	}
 
