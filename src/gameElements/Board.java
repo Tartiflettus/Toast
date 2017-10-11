@@ -65,7 +65,7 @@ public class Board {
 			int y = selectionnerCaseAccessible(x);
 			if (y != -1){
 				Board cloneBoard = clone();
-				cloneBoard.poserPion(x,y);
+				cloneBoard.poserPion(x);
 				cloneBoard.swapJoueurActuel();
 				succ.add(cloneBoard);
 			}
@@ -100,6 +100,7 @@ public class Board {
 		int diagonale2 = 1 + isFinalAux(x, y, 1, -1) + isFinalAux(x, y, -1, 1);
 		if (horizontal >= 4 || vertical >= 4 || diagonale1 >= 4 || diagonale2 >=4){
 			return getCell(x,y);
+		
 		}
 		if(estRempli()){
 			return YELLOW;
@@ -152,18 +153,16 @@ public class Board {
 		return -1;
 	}
 		
-	public void poserPion(int x, int y){
-		if(joueurActuel == RED){
-			setCell(x, y, RED);
-		} else {
-			setCell(x, y, YELLOW);
-		}
-	}
+
 	
 	public void poserPion(int x){
 		int y = selectionnerCaseAccessible(x);
 		if(y != -1){
-			poserPion(x, y);
+			if(joueurActuel == RED){
+				setCell(x, y, RED);
+			} else {
+				setCell(x, y, YELLOW);
+			}
 		}
 	}
 	

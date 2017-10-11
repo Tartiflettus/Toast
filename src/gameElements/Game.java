@@ -5,16 +5,10 @@ import java.util.Observable;
 public class Game extends Observable {
 	
 	private Board board;
-	int typeModification;  // 0 = pas de modif ; 1 = nouvelle partie ; 2 = poser un pion
-	int xSelectionne;
-	int ySelectionne;
-	
+
 
 	public Game() {
 		board = new Board();
-		typeModification = 0;
-		xSelectionne = -1;
-		ySelectionne = -1;
 	}
 	
 	/*
@@ -54,13 +48,9 @@ public class Game extends Observable {
 	 * Ne fait rien si la colonne est pleine
 	 */
 	public void poserPion(int x){
-		int y = selectionnerCaseAccessible(x);
-		if (y != -1){	
-			setBoutonSelectionne(x, y);
-			board.poserPion(x, y);
-			setJoueurActuel(Board.YELLOW);
-			maj();
-		}
+		board.poserPion(x);
+		setJoueurActuel(Board.YELLOW);
+		maj();
 	}
 	
 	/*
@@ -98,28 +88,11 @@ public class Game extends Observable {
 		this.board = board;
 	}
 
-	/*
-	 * Indique quelle partie de l'affichage est modifiée
-	 */
-	public int getTypeModification() {
-		return typeModification;
-	}
+
 
 	/*
 	 * Indique quelle case a été modifiée en dernier
 	 */
-	private void setBoutonSelectionne(int x, int y){
-		xSelectionne = x;
-		ySelectionne = y;
-	}
-
-	public int getxSelectionne() {
-		return xSelectionne;
-	}
-
-	public int getySelectionne() {
-		return ySelectionne;
-	}
 	
 	public int getJoueurActuel() {
 		return board.getJoueurActuel();
