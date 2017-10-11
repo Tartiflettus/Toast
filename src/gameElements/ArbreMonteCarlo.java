@@ -1,7 +1,6 @@
 package gameElements;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,8 +15,8 @@ public class ArbreMonteCarlo {
 	private double Si;
 	
 	private ArbreMonteCarlo parent;
-	private Set<ArbreMonteCarlo> filsSansBValeur;
-	private Set<ArbreMonteCarlo> filsAvecBValeur;
+	private List<ArbreMonteCarlo> filsSansBValeur;
+	private List<ArbreMonteCarlo> filsAvecBValeur;
 	
 	private Board board;
 	
@@ -46,7 +45,7 @@ public class ArbreMonteCarlo {
 	public ArbreMonteCarlo() {
 		Ni = 0;
 		Si = 0;
-		filsAvecBValeur = new HashSet<>();
+		filsAvecBValeur = new ArrayList<>();
 	}
 	
 	public ArbreMonteCarlo(Board b){
@@ -72,10 +71,12 @@ public class ArbreMonteCarlo {
 	/*
 	 * Récupérer les fils sans BValeur
 	 */
-	public Set<ArbreMonteCarlo> getFilsSansBValeur(){
+	public List<ArbreMonteCarlo> getFilsSansBValeur(){
 		if(filsSansBValeur == null){
-			filsSansBValeur = new HashSet<>();
+			filsSansBValeur = new ArrayList<>();
 			for(Board b : board.successeurs()){
+				ArbreMonteCarlo arbre = new ArbreMonteCarlo(b);
+				arbre.setParent(this);
 				filsSansBValeur.add(new ArbreMonteCarlo(b));
 			}
 		}
@@ -85,7 +86,7 @@ public class ArbreMonteCarlo {
 	/*
 	 * Récupérer les fils avec une BValeur
 	 */
-	private Set<ArbreMonteCarlo> getFilsAvecBValeur(){
+	private List<ArbreMonteCarlo> getFilsAvecBValeur(){
 		return filsAvecBValeur;
 	}
 
@@ -108,8 +109,12 @@ public class ArbreMonteCarlo {
 	/*
 	 * Un noeud est terminal si au moins un fils n'a pas de BValeur (y compris non créé)
 	 */
-	private boolean estTerminal(){
+	private boolean possedeNonDeveloppe(){
 		return filsSansBValeur == null || filsSansBValeur.size() != 0;
+	}
+	
+	private boolean estTerminal(){
+		return board.isFinal() != Board.WHITE;
 	}
 	
 	/*
@@ -121,20 +126,59 @@ public class ArbreMonteCarlo {
 		return board.marcheAleatoire();
 	}
 	
-	/*public void MCTS(){
-		
+	public void MCTS(){
+		if (estTerminal()){
+			int marcheAlea = marcheAleatoire();
+			miseAJourParBackTracking(marcheAlea);
+		}
+		if (possedeNonDeveloppe()){
+			/* Developpement de C3 (cf cours) */
+			List<ArbreMonteCarlo> lesFils = getFilsSansBValeur();
+			int index = (int)Math.random()*lesFils.size();
+			ArbreMonteCarlo fils = lesFils.get(index);
+			changerListe(index);
+			
+			/* Developpement de C31 */
+			List<ArbreMonteCarlo> lesPetitsFils = fils.getFilsSansBValeur();
+			index = (int)Math.random()*lesPetitsFils.size();
+			ArbreMonteCarlo petitFils = lesPetitsFils.get(index);
+			changerListe(index);
+			
+			/* Marche al�atoire sur C31 */
+			int marcheAlea = petitFils.marcheAleatoire();
+			
+			/* Mettre a jour par backtracking */
+			petitFils.miseAJourParBackTracking(marcheAlea);
+		}
 		ArbreMonteCarlo suivant = selecPlusGrandeBValeur();
-		if()
-		suivant.MCTS();
+		if(suivant != null){
+			suivant.MCTS();
+		}
 		
-	}*/
+	}
 	
+	private void miseAJourParBackTracking(int recompense){
+		ArbreMonteCarlo noeudActuel = this;
+		while (noeudActuel != null){
+			noeudActuel.majBValeur(recompense);
+			noeudActuel = noeudActuel.parent;
+		}
+	}
 	
+	private void changerListe(int i){
+		filsAvecBValeur.add(filsSansBValeur.get(i));
+		filsSansBValeur.remove(i);
+	}
+	
+	private void setParent(ArbreMonteCarlo parent) {
+		this.parent = parent;
+	}
+
 	public static void main(String[] args){
 		ArbreMonteCarlo a = new ArbreMonteCarlo(new Board(2, 2));
 		
 		//test du nombre de fils (successeurs)
-		Set<ArbreMonteCarlo> succs = a.getFilsSansBValeur();
+		List<ArbreMonteCarlo> succs = a.getFilsSansBValeur();
 		assert(succs.size() == 2):"Mauvais nombre de successeurs";
 		
 		//maj de BValeur
