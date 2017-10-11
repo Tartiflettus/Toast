@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import util.FloatUtility;
+
 /*
  * Un arbre de Monte-Carlo, qui permet en un temps limité de trouver le meilleur coup à jouer
  */
@@ -127,10 +129,6 @@ public class ArbreMonteCarlo {
 		
 	}*/
 	
-	public static boolean near(double f1, double f2){
-		return Math.abs(f1 - f2) < 0.0001;
-	}
-	
 	
 	public static void main(String[] args){
 		ArbreMonteCarlo a = new ArbreMonteCarlo(new Board(2, 2));
@@ -145,7 +143,7 @@ public class ArbreMonteCarlo {
 		a.majBValeur(1); //victoire
 		assert(a.mu() == 1f):"Mauvaise moyenne des récompenses";
 		a.majBValeur(0); //défaite
-		assert(near(a.mu(), 2f/3f));
+		assert(FloatUtility.near(a.mu(), 2d/3d)):"Mauvaise moyenne des récompenses";
 		
 		System.out.println("OK");
 	}
