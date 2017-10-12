@@ -5,6 +5,7 @@ import java.util.Observable;
 public class Game extends Observable {
 	
 	private Board board;
+	private int cptMCTS;
 
 
 	public Game() {
@@ -73,9 +74,12 @@ public class Game extends Observable {
 		arbre.developper();
 		final long start = System.currentTimeMillis();
 		final long end = start + 1000 * 1;
+		cptMCTS = 0;
 		while(System.currentTimeMillis() < end){
 			arbre.MCTS();
+			++cptMCTS;
 		}
+		System.out.println(cptMCTS);
 		ArbreMonteCarlo plusGrand = arbre.meilleureMoyenne();
 		board = plusGrand.getBoard();
 		
