@@ -39,6 +39,7 @@ public class Game extends Observable {
 	 */
 	public void reset(int width, int height){
 		board = new Board(width, height);
+		gagnant = Board.WHITE;
 		maj();
 	}
 	
@@ -55,6 +56,7 @@ public class Game extends Observable {
 	 * Ne fait rien si la colonne est pleine
 	 */
 	public void poserPion(int x){
+		//ne rien faire si le jeu est fini
 		if(gagnant != Board.WHITE){
 			return;
 		}
@@ -74,6 +76,7 @@ public class Game extends Observable {
 	 * Peut échouer si la colonne choisie est remplie
 	 */
 	synchronized public void ordiQuiJoue(){
+		//ne rien faire si le jeu est fini
 		if(gagnant != Board.WHITE){
 			return;
 		}
