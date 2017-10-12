@@ -6,6 +6,7 @@ public class Game extends Observable {
 	
 	private Board board;
 	private int cptMCTS;
+	private double chancesVictoire;
 	private ArbreMonteCarlo prochainCoup;
 	
 	private boolean calculOrdi; //indique si l'ordi est en train de calculer
@@ -93,6 +94,7 @@ public class Game extends Observable {
 		ArbreMonteCarlo plusGrand = prochainCoup.meilleureMoyenne();
 		board = plusGrand.getBoard();
 		gagnant = board.isFinal();
+		chancesVictoire = plusGrand.mu();
 		
 		setJoueurActuel(Board.RED);
 		maj();
@@ -147,6 +149,15 @@ public class Game extends Observable {
 		this.cptMCTS = cpt;
 	}
 	
+	
+	public double getChancesVictoire() {
+		return chancesVictoire;
+	}
+
+	public void setChancesVictoire(double chancesVictoire) {
+		this.chancesVictoire = chancesVictoire;
+	}
+
 	synchronized public void attendre(){
 		calculOrdi = true;
 	}
