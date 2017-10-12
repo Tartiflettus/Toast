@@ -134,7 +134,6 @@ public class Board {
 	public int marcheAleatoire(){
 		int fin = isFinal();
 		if(fin != WHITE){
-			//System.out.println(toString());
 			return fin == RED ? 0 : 1;
 		}
 		List<Board> succ = successeurs();

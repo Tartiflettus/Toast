@@ -62,17 +62,6 @@ public class Game extends Observable {
 	 * Peut échouer si la colonne choisie est remplie
 	 */
 	public void ordiQuiJoue(){
-		/* int x = (int) (Math.random()*getBoard().getWidth());
-		int y = selectionnerCaseAccessible(x);
-		if (y != -1){
-			setBoutonSelectionne(x, y);
-			board.poserPion(x, y);
-			setJoueurActuel(Board.RED);
-			typeModification = POSER_PION;
-			maj();
-			typeModification = PAS_MODIF;
-		}
-		*/
 		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
 		arbre.developper();
 		final long start = System.currentTimeMillis();
@@ -82,7 +71,6 @@ public class Game extends Observable {
 			arbre.MCTS();
 			++cptMCTS;
 		}
-		System.out.println(cptMCTS);
 		ArbreMonteCarlo plusGrand = arbre.meilleureMoyenne();
 		board = plusGrand.getBoard();
 		

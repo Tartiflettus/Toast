@@ -27,10 +27,6 @@ public class ButtonClick implements ActionListener {
 		else {
 			game.ordiQuiJoue();
 		}
-
-		
-		System.out.println(game.toString());
-
 	}
 
 }
