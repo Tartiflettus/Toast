@@ -41,6 +41,9 @@ public class GameUI extends JFrame implements Observer {
 	protected JButton[][] buttons;
 	protected JPanel panel;
 
+	protected JPanel message;
+	protected JLabel messageLabel;
+	
 	protected JMenuBar menuBar;
 	protected JMenuItem nouvellePartie;
 	
@@ -88,7 +91,7 @@ public class GameUI extends JFrame implements Observer {
 			}
 		});
 		
-		// JPANEL
+		// JPANEL AVEC JBUTTONS
 		
 		panel = new JPanel();
 		
@@ -97,6 +100,22 @@ public class GameUI extends JFrame implements Observer {
 		panel.setSize(1000, 1000);
 		
 		add(panel);
+		
+		// JPANEL QUI CONTIENT LES MESSAGES
+		
+		message = new JPanel();
+		this.add(message, BorderLayout.NORTH);
+		
+		messageLabel = new JLabel();
+		messageLabel.setBackground(Color.black);
+		
+		message.setBackground(Color.black);
+		message.setOpaque(true);
+		messageLabel.setOpaque(true);
+		
+		messageLabel.setText("<html><font color='blue'>Le jeu est en cours</font></html>");
+		message.add(messageLabel);
+		
 		
 		//--
 		
@@ -141,6 +160,16 @@ public class GameUI extends JFrame implements Observer {
 		
 			panel.revalidate();
         	panel.repaint();
+        	
+        	
+        	if (game.getGagnant() == Board.YELLOW){
+            	messageLabel.setText("<html><font color='yellow'>L'ordinateur a gagné ...</font></html>");
+        	}
+        	if (game.getGagnant() == Board.RED){
+            	messageLabel.setText("<html><font color='red'>Vous avez gagné !!!</font></html>");
+        	}
+
+        	
 	}
 
 }

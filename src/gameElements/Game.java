@@ -6,9 +6,11 @@ public class Game extends Observable {
 	
 	private Board board;
 
+	private int gagnant;
 
 	public Game() {
 		board = new Board();
+		gagnant = Board.WHITE;
 	}
 	
 	/*
@@ -50,6 +52,7 @@ public class Game extends Observable {
 	public void poserPion(int x){
 		board.poserPion(x);
 		setJoueurActuel(Board.YELLOW);
+		gagnant = board.isFinal();
 		maj();
 	}
 	
@@ -90,13 +93,15 @@ public class Game extends Observable {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
-
-
-
-	/*
-	 * Indique quelle case a été modifiée en dernier
-	 */
 	
+	public void setGagnant(int gagnant) {
+		this.gagnant = gagnant;
+	}
+
+	public int getGagnant() {
+		return gagnant;
+	}
+
 	public int getJoueurActuel() {
 		return board.getJoueurActuel();
 	}

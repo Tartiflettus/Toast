@@ -22,6 +22,7 @@ public class ButtonClick implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if (game.getJoueurActuel() == Board.RED){
 			game.poserPion(x);
+			
 		}
 		else {
 			game.ordiQuiJoue();
