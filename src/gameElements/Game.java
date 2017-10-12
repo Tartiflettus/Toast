@@ -73,6 +73,7 @@ public class Game extends Observable {
 		}
 		ArbreMonteCarlo plusGrand = arbre.meilleureMoyenne();
 		board = plusGrand.getBoard();
+		gagnant = board.isFinal();
 		
 		setJoueurActuel(Board.RED);
 		maj();
