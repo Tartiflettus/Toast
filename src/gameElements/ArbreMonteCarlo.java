@@ -29,6 +29,22 @@ public class ArbreMonteCarlo {
 		return Si / (double) Ni; 
 	}
 	
+	
+	/*
+	 * Renvoie le fils de plus grande moyenne des récompenses
+	 */
+	public ArbreMonteCarlo meilleureMoyenne(){
+		double max = -1;
+		ArbreMonteCarlo meilleur = null;
+		for(ArbreMonteCarlo a : getFils()){
+			if(max < a.mu()){
+				max = a.mu();
+				meilleur = a;
+			}
+		}
+		return meilleur;
+	}
+	
 	/*
 	 * Nombre de passages par le noeud
 	 */
