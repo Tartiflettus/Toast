@@ -153,8 +153,11 @@ public class Board {
 	}
 		
 
-	
-	public void poserPion(int x){
+	/*
+	 * Pose un pion si possible,
+	 * sinon renvoie faux
+	 */
+	public boolean poserPion(int x){
 		int y = selectionnerCaseAccessible(x);
 		if(y != -1){
 			if(joueurActuel == RED){
@@ -162,7 +165,9 @@ public class Board {
 			} else {
 				setCell(x, y, YELLOW);
 			}
+			return true;
 		}
+		return false;
 	}
 	
 	public int getWidth() {

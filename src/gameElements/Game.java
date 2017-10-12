@@ -6,12 +6,16 @@ public class Game extends Observable {
 	
 	private Board board;
 	private int cptMCTS;
+	private ArbreMonteCarlo prochainCoup;
+	
+	private boolean calculOrdi; //indique si l'ordi est en train de calculer
 
 	private int gagnant;
 
 	public Game() {
 		board = new Board();
 		gagnant = Board.WHITE;
+		calculOrdi = false;
 	}
 	
 	/*
@@ -51,9 +55,17 @@ public class Game extends Observable {
 	 * Ne fait rien si la colonne est pleine
 	 */
 	public void poserPion(int x){
-		board.poserPion(x);
-		setJoueurActuel(Board.YELLOW);
-		gagnant = board.isFinal();
+		if(gagnant != Board.WHITE){
+			return;
+		}
+		if(board.poserPion(x)){
+			setJoueurActuel(Board.YELLOW);
+			gagnant = board.isFinal();
+			
+			//lancer par avance le calcul de MCTS
+			Thread t = new Thread(new MCTSLauncher(this));
+			t.start();
+		}
 		maj();
 	}
 	
@@ -61,17 +73,21 @@ public class Game extends Observable {
 	 * L'ordi pose un pion dans une colonne au hasard.
 	 * Peut échouer si la colonne choisie est remplie
 	 */
-	public void ordiQuiJoue(){
-		ArbreMonteCarlo arbre = new ArbreMonteCarlo(board);
-		arbre.developper();
-		final long start = System.currentTimeMillis();
-		final long end = start + 1000 * 1;
-		cptMCTS = 0;
-		while(System.currentTimeMillis() < end){
-			arbre.MCTS();
-			++cptMCTS;
+	synchronized public void ordiQuiJoue(){
+		if(gagnant != Board.WHITE){
+			return;
 		}
-		ArbreMonteCarlo plusGrand = arbre.meilleureMoyenne();
+		
+		//attendre que le calcul se termine
+		while(calculOrdi){
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		ArbreMonteCarlo plusGrand = prochainCoup.meilleureMoyenne();
 		board = plusGrand.getBoard();
 		gagnant = board.isFinal();
 		
@@ -114,5 +130,26 @@ public class Game extends Observable {
 	public int getCell(int x, int y){
 		return board.getCell(x, y);
 	}
+
+	public ArbreMonteCarlo getProchainCoup() {
+		prochainCoup = new ArbreMonteCarlo(board);
+		return prochainCoup;
+	}
 	
+	public void setProchainCoup(ArbreMonteCarlo arbre){
+		this.prochainCoup = arbre;
+	}
+	
+	public void setCptMCTS(int cpt){
+		this.cptMCTS = cpt;
+	}
+	
+	synchronized public void attendre(){
+		calculOrdi = true;
+	}
+	
+	synchronized public void finCalculOrdi(){
+		calculOrdi = false;
+		notify();
+	}
 }
