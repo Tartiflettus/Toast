@@ -76,7 +76,7 @@ public class Game extends Observable {
 		while(System.currentTimeMillis() < end){
 			arbre.MCTS();
 		}
-		ArbreMonteCarlo plusGrand = arbre.selecPlusGrandeBValeur();
+		ArbreMonteCarlo plusGrand = arbre.meilleureMoyenne();
 		board = plusGrand.getBoard();
 		
 		setJoueurActuel(Board.RED);
