@@ -113,6 +113,10 @@ public class Game extends Observable {
 	public void setJoueurActuel(int joueurActuel) {
 		board.setJoueurActuel(joueurActuel);
 	}
+	
+	public int getCptMCTS() {
+		return cptMCTS;
+	}
 
 	public String toString(){
 		return board.toString();

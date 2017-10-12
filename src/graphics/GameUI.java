@@ -113,7 +113,7 @@ public class GameUI extends JFrame implements Observer {
 		message.setOpaque(true);
 		messageLabel.setOpaque(true);
 		
-		messageLabel.setText("<html><font color='blue'>Le jeu est en cours</font></html>");
+		messageLabel.setText("<html><font color='red'>A vous de jouer</font></html>");
 		message.add(messageLabel);
 		
 		
@@ -164,9 +164,14 @@ public class GameUI extends JFrame implements Observer {
         	
         	if (game.getGagnant() == Board.YELLOW){
             	messageLabel.setText("<html><font color='yellow'>L'ordinateur a gagné ...</font></html>");
-        	}
-        	if (game.getGagnant() == Board.RED){
+        	} else if (game.getGagnant() == Board.RED){
             	messageLabel.setText("<html><font color='red'>Vous avez gagné !!!</font></html>");
+        	} else {
+        		if(game.getJoueurActuel() == Board.YELLOW){
+        			messageLabel.setText("<html><font color='yellow'>L'ordi joue ...</font></html>");
+        		} else {
+        			messageLabel.setText("<html><font color='red'>A vous de jouer ("+game.getCptMCTS() +" executions de MCTS par l'ordi au coup précédent)</font></html>");
+        		}
         	}
 
         	
