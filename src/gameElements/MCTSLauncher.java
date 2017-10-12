@@ -4,7 +4,7 @@ public class MCTSLauncher implements Runnable {
 	
 	private Game game;
 	
-	private static final long DELAI = 500;
+	private static final long DELAI = 1000;
 	
 	public MCTSLauncher(Game game) {
 		this.game = game;
