@@ -60,13 +60,28 @@ public class Board {
 	}
 	
 	public List<Board> successeurs(){
-		List<Board> succ = new ArrayList<>();
+		/*List<Board> succ = new ArrayList<>();
 		for(int x = 0 ; x < width ; x++){
 			int y = selectionnerCaseAccessible(x);
 			if (y != -1){
 				Board cloneBoard = clone();
 				cloneBoard.poserPion(x);
 				cloneBoard.swapJoueurActuel();
+				succ.add(cloneBoard);
+			}
+		}
+		return succ;*/
+		return successeurs(this.joueurActuel);
+	}
+	
+	public List<Board> successeurs(int couleur){
+		List<Board> succ = new ArrayList<>();
+		for(int x = 0 ; x < width ; x++){
+			int y = selectionnerCaseAccessible(x);
+			if (y != -1){
+				Board cloneBoard = clone();
+				cloneBoard.setCell(x, y, couleur);
+				cloneBoard.setJoueurActuel(couleur == RED ? YELLOW : RED);
 				succ.add(cloneBoard);
 			}
 		}
