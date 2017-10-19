@@ -96,7 +96,7 @@ public class Board {
 	 */
 	
 	public int isFinal(){
-		for(int i = 0 ; i < width; i++){
+		/*for(int i = 0 ; i < width; i++){
 			for (int j = 0 ; j < height ; j++){
 				if (getCell(i,j) != WHITE){
 					int gagne = isFinal(i,j);
@@ -106,7 +106,16 @@ public class Board {
 				}
 			}
 		}
-		return WHITE;
+		return WHITE;*/
+		//calculer la ligne du dernier pion posé
+		int y = 0;
+		while (y < height&& getCell(dernierXPose, y) == 0){
+			y++;
+		}
+		if(y == height){ //pas de pion trouvé
+			return WHITE;
+		}
+		return isFinal(dernierXPose, y);
 	}
 	
 	public int isFinal(int x, int y){
