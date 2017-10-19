@@ -53,10 +53,6 @@ public class ArbreMonteCarlo {
 		int max = -1;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFils()){
-			//vérifier si l'état est gagnant pour un joueur: auquel cas on joue un coup spécial
-			if(a.estTerminal()){
-				return a; //on joue ici si on gagne, ou si ça fait gagner le joueur
-			}
 			if(max < a.getNi()){
 				max = a.getNi();
 				meilleur = a;
