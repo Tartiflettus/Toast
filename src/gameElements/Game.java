@@ -1,5 +1,6 @@
 package gameElements;
 
+import java.util.List;
 import java.util.Observable;
 
 public class Game extends Observable {
@@ -64,12 +65,39 @@ public class Game extends Observable {
 		if(board.poserPion(x)){
 			setJoueurActuel(Board.YELLOW);
 			gagnant = board.isFinal();
+		
+			//tour de l'ordi
+			if(gagnant != Board.WHITE) return;
+			if(forcerOrdi(Board.YELLOW) || forcerOrdi(Board.RED)){
+				maj();
+				return;
+			}
+			
 			
 			//lancer par avance le calcul de MCTS
 			Thread t = new Thread(new MCTSLauncher(this));
 			t.start();
 		}
 		maj();
+	}
+	
+	private boolean forcerOrdi(int couleur){
+		List<Board> succ = board.successeurs(couleur);
+		for(Board b : succ){
+			if (b.isFinal() == couleur){
+				board.poserPion(b.getDernierXPose());
+				setJoueurActuel(Board.RED);
+				if(couleur == Board.YELLOW){
+					chancesVictoire = 1;
+					gagnant = Board.YELLOW;
+				}
+				else {
+					chancesVictoire = -1; // -1 car on ne connait pas ses chances de Victoire
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*

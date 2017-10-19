@@ -19,6 +19,7 @@ public class Board {
 	
 	private int joueurActuel;
 	
+	private int dernierXPose;
 	
 	public Board(){
 		this(7, 6);
@@ -201,6 +202,10 @@ public class Board {
 	public int getJoueurActuel() {
 		return joueurActuel;
 	}
+	
+	public int getDernierXPose() {
+		return dernierXPose;
+	}
 
 	public void setJoueurActuel(int joueurActuel) {
 		this.joueurActuel = joueurActuel;
@@ -225,6 +230,7 @@ public class Board {
 		if(color != WHITE){
 			++cptPions;
 		}
+		dernierXPose = x;
 	}
 
 	@Override
