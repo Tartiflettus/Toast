@@ -34,7 +34,7 @@ public class ArbreMonteCarlo {
 	 * Renvoie le fils de plus grande moyenne des récompenses
 	 */
 	public ArbreMonteCarlo meilleureMoyenne(){
-		double max = -1;
+		double max = Double.MIN_VALUE;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFils()){
 			if(max < a.mu()){
@@ -50,7 +50,7 @@ public class ArbreMonteCarlo {
 	 * Renvoie le fils ayant été le plus visité
 	 */
 	public ArbreMonteCarlo meilleureRobustesse(){
-		int max = -1;
+		int max = Integer.MIN_VALUE;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFils()){
 			if(max < a.getNi()){
@@ -135,7 +135,7 @@ public class ArbreMonteCarlo {
 	 * Récupérer le noeud de plus grande B-Valeur
 	 */
 	public ArbreMonteCarlo selecPlusGrandeBValeur(){
-		double BMax = -1;
+		double BMax = Double.MIN_VALUE;
 		ArbreMonteCarlo meilleur = null;
 		for(ArbreMonteCarlo a : getFils()){
 			if(BMax < a.getBValeur()){
