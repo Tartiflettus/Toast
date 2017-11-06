@@ -48,7 +48,7 @@ public class GameUI extends JFrame implements Observer {
 	protected JMenuItem nouvellePartie;
 	
 	
-	public GameUI(Game game){
+	public GameUI(final Game game){
 		super("Puissance 4");
 		setPreferredSize(new Dimension(700, 500));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
